@@ -39,22 +39,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
-            createNotificationChannel(this)
-            showNotification(this)
-        } else {
-            val pushNotificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())
-            { isGranted: Boolean ->
-                if (isGranted) {
-                    createNotificationChannel(this)
-                    showNotification(this)
-                } else {
-                    //TODO handle what happens if user denies permission
-                    Log.d("MainActivity", "Notification permission denied")
-                }
-            }
-            pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-        }
+//        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+//            createNotificationChannel(this)
+//            showNotification(this)
+//        } else {
+//            val pushNotificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())
+//            { isGranted: Boolean ->
+//                if (isGranted) {
+//                    createNotificationChannel(this)
+//                    showNotification(this)
+//                } else {
+//                    //TODO handle what happens if user denies permission
+//                    Log.d("MainActivity", "Notification permission denied")
+//                }
+//            }
+//            pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+//        }
 
 
         setContent {
@@ -122,8 +122,11 @@ fun showNotification(context: Context) {
         .setContentText("This is a persistent notification")
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setOngoing(true)
+
     NotificationManagerCompat.from(context).notify(1, builder.build())
 }
+
+
 
 
 @Preview(showBackground = true)
