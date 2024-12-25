@@ -45,4 +45,12 @@
 
     </application>
 
+    <!--
+        The below snippet resolves Failed to find provider info for
+        com.ichi2.anki.flashcards which occurs on or above Android SDK 30 or Android 11+:
+    -->
+    <queries>
+        <package android:name="com.ichi2.anki" />
+    </queries>
+
 </manifest>
