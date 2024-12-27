@@ -102,29 +102,29 @@ class MainActivity : ComponentActivity() {
 
 
 
-
-fun createNotificationChannel(context: Context) {
-        val name = "AnkiScanChannel"
-        val descriptionText = "Channel for AnkiScan notifications"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("ANKISCAN_CHANNEL_ID", name, importance).apply {
-            description = descriptionText
-        }
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-}
-
-@SuppressLint("MissingPermission")
-fun showNotification(context: Context) {
-    val builder = NotificationCompat.Builder(context, "ANKISCAN_CHANNEL_ID")
-        .setSmallIcon(R.drawable.japanese_example)
-        .setContentTitle("AnkiScan")
-        .setContentText("This is a persistent notification")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setOngoing(true)
-
-    NotificationManagerCompat.from(context).notify(1, builder.build())
-}
+//code moved to PersistentNotificationService.kt
+//fun createNotificationChannel(context: Context) {
+//        val name = "AnkiScanChannel"
+//        val descriptionText = "Channel for AnkiScan notifications"
+//        val importance = NotificationManager.IMPORTANCE_DEFAULT
+//        val channel = NotificationChannel("ANKISCAN_CHANNEL_ID", name, importance).apply {
+//            description = descriptionText
+//        }
+//        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        notificationManager.createNotificationChannel(channel)
+//}
+//
+//@SuppressLint("MissingPermission")
+//fun showNotification(context: Context) {
+//    val builder = NotificationCompat.Builder(context, "ANKISCAN_CHANNEL_ID")
+//        .setSmallIcon(R.drawable.japanese_example)
+//        .setContentTitle("AnkiScan")
+//        .setContentText("This is a persistent notification")
+//        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//        .setOngoing(true)
+//
+//    NotificationManagerCompat.from(context).notify(1, builder.build())
+//}
 
 
 
