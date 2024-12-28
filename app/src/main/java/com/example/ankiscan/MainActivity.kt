@@ -126,9 +126,6 @@ fun showNotification(context: Context) {
     NotificationManagerCompat.from(context).notify(1, builder.build())
 }
 
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -146,4 +143,16 @@ fun GreetingPreview() {
             )
         }
     }
+}
+
+private fun getDeckID() {
+
+}
+
+/**
+ * Use the instant-add API to add flashcards directly to AnkiDroid.
+ * @param data List of cards to be added. Each card has a HashMap of field name / field value pairs.
+ */
+private fun addCardsToAnkiDroid(data: List<Map<String, String>>) {
+
 }
