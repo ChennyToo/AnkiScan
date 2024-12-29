@@ -27,12 +27,13 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
-
+import com.example.ankiscan.anki.AnkiDroidHelper
 
 
 class MainActivity : ComponentActivity() {
@@ -55,13 +56,12 @@ class MainActivity : ComponentActivity() {
 //            }
 //            pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
 //        }
-
+        val ankiDroidHelper = AnkiDroidHelper(context = this)
 
         setContent {
             AnkiScanTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     var recognizedText by remember { mutableStateOf("Recognizing...") }
                     Column(
@@ -69,6 +69,11 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+//                        MakeCardButton(onCLick = {
+//                            ankiDroidHelper.addCardToAnkiDroid(
+//                                word = "テスト", definition = "test"
+//                            )
+//                        })
                         Spacer(modifier = Modifier.height(16.dp))
                         Image(
                             painter = painterResource(id = R.drawable.japanese_example),
@@ -79,21 +84,29 @@ class MainActivity : ComponentActivity() {
                         Text(text = recognizedText)
                     }
 
-                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.japanese_example)
+                    val bitmap =
+                        BitmapFactory.decodeResource(resources, R.drawable.japanese_example)
                     val image = InputImage.fromBitmap(bitmap, 0)
-                    val recognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
+                    val recognizer =
+                        TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
 
 
-                    recognizer.process(image)
-                        .addOnSuccessListener { visionText ->
-                            recognizedText = visionText.text
-                            Log.d("MainActvity", "Recognized text: ${visionText.text}")
-
+                    recognizer.process(image).addOnSuccessListener { visionText ->
+                        recognizedText = visionText.text
+                        Log.d("MainActvity", "Recognized text: ${visionText.text}")
+                        val words: List<String> = recognizedText.lines()
+                        val definitions: List<String> = listOf("Riddle solving", "World")
+                        val pairs = words.zip(definitions)
+                        for (pair in pairs) {
+                            ankiDroidHelper.addCardToAnkiDroid(
+                                word = pair.first,
+                                definition = pair.second
+                            )
                         }
-                        .addOnFailureListener { e ->
-                            recognizedText = "Recognition failed: ${e.message}"
-                            Log.d("MainActvity", "Recognition failed: ${e.message}")
-                        }
+                    }.addOnFailureListener { e ->
+                        recognizedText = "Recognition failed: ${e.message}"
+                        Log.d("MainActvity", "Recognition failed: ${e.message}")
+                    }
                 }
             }
         }
@@ -101,27 +114,24 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
-
 fun createNotificationChannel(context: Context) {
-        val name = "AnkiScanChannel"
-        val descriptionText = "Channel for AnkiScan notifications"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("ANKISCAN_CHANNEL_ID", name, importance).apply {
-            description = descriptionText
-        }
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+    val name = "AnkiScanChannel"
+    val descriptionText = "Channel for AnkiScan notifications"
+    val importance = NotificationManager.IMPORTANCE_DEFAULT
+    val channel = NotificationChannel("ANKISCAN_CHANNEL_ID", name, importance).apply {
+        description = descriptionText
+    }
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.createNotificationChannel(channel)
 }
 
 @SuppressLint("MissingPermission")
 fun showNotification(context: Context) {
     val builder = NotificationCompat.Builder(context, "ANKISCAN_CHANNEL_ID")
-        .setSmallIcon(R.drawable.japanese_example)
-        .setContentTitle("AnkiScan")
+        .setSmallIcon(R.drawable.japanese_example).setContentTitle("AnkiScan")
         .setContentText("This is a persistent notification")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setOngoing(true)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT).setOngoing(true)
 
     NotificationManagerCompat.from(context).notify(1, builder.build())
 }
@@ -142,6 +152,13 @@ fun GreetingPreview() {
                 modifier = Modifier.size(128.dp)
             )
         }
+    }
+}
+
+@Composable
+fun MakeCardButton(onCLick: () -> Unit, modifier: Modifier = Modifier) {
+    Button(onClick = onCLick) {
+        Text(text = "PRESS ME")
     }
 }
 
