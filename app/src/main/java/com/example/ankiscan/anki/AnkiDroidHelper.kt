@@ -29,7 +29,7 @@ class AnkiDroidHelper(
          * The API could be unavailable if AnkiDroid is not installed or the user explicitly disabled the API
          * @return true if the API is available to use
          */
-        public fun isApiAvailable(context: Context): Boolean {
+        fun isApiAvailable(context: Context): Boolean {
             return AddContentApi.getAnkiDroidPackageName(context) != null
         }
     }
@@ -43,7 +43,7 @@ class AnkiDroidHelper(
      * @param deckName the name of the deck to find
      * @return the did of the deck in Anki
      */
-    public suspend fun findDeckIdByName(deckName: String) {
+    suspend fun findDeckIdByName(deckName: String) {
         val key = longPreferencesKey(deckName)
         val deckId: Flow<Long?> = context.ankiData.data.map { ankiData ->
             ankiData[key]
@@ -51,24 +51,27 @@ class AnkiDroidHelper(
         deckId.collect { value ->
 
         }
-
     }
 
     /**
      * I don't know if this does what I want it to do
      */
-    public suspend fun storeDeckReference(deckName: String, deckId: Long) {
+    suspend fun storeDeckReference(deckName: String, deckId: Long) {
         val key = longPreferencesKey(deckName)
         context.ankiData.edit { anki ->
             anki[key] = deckId
         }
     }
 
-    public suspend fun storeModelReference(modelName: String, modelId: Long) {
+    suspend fun storeModelReference(modelName: String, modelId: Long) {
         val key = longPreferencesKey(modelName)
         context.ankiData.edit { anki ->
             anki[key] = modelId
         }
+    }
+
+    fun checkForDuplicate() {
+        ankiApi.findDuplicateNotes(Long.MAX_VALUE, "test")
     }
 
     /**
@@ -100,6 +103,7 @@ class AnkiDroidHelper(
         }
         return false
     }
+
 
     fun createDeck(deckName: String): Long {
         return when (deckExists(deckName)) {
