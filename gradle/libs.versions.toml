@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.3"
-kotlin = "1.9.0"
+kotlin = "2.1.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -11,6 +11,7 @@ composeBom = "2023.08.00"
 visionCommon = "17.3.0"
 playServicesMlkitTextRecognitionCommon = "19.1.0"
 playServicesMlkitTextRecognitionJapanese = "16.0.1"
+ksp = "2.1.0-1.0.29"
 
 [libraries]
 mlkit-text-recognition-japanese = { group = "com.google.mlkit", name = "text-recognition-japanese", version = "16.0.1" }
@@ -35,4 +36,5 @@ play-services-mlkit-text-recognition-japanese = { group = "com.google.android.gm
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
