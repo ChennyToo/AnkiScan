@@ -13,9 +13,6 @@ import android.view.accessibility.AccessibilityManager
 
 
 class NotificationButtonReceiver : BroadcastReceiver() {
-
-
-
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("NotificationButton", "hello world")
         //TODO user needs to close the notification drawer themselves to see that
@@ -23,7 +20,6 @@ class NotificationButtonReceiver : BroadcastReceiver() {
         handleAccessibilityService(context)
         val broadcastIntent = Intent("com.example.ankiscan.CLOSE_NOTIFICATION_DRAWER")
         context.sendBroadcast(broadcastIntent)
-
     }
     //auto enable accessibility service for debugging purposes
     //adb shell settings put secure enabled_accessibility_services com.example.ankiscan/com.example.ankiscan.NotificationDrawerService

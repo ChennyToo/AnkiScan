@@ -1,0 +1,6 @@
+EXAMPLE SENTENCES ARE MISSING FROM XML
+We should download example sentences from https://tatoeba.org/en/downloads
+and seach the data to generate example as we generate a card
+
+Use this DB for cross references http://www.edrdg.org/jmwsgi/srchform.py?svc=jmdict&sid=
+Find what the url is for search results, and just redirect the user to a page with the xref kanji

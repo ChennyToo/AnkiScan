@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("com.google.code.gson:gson:2.11.0")
 
     implementation(libs.mlkit.text.recognition.japanese)
     implementation(libs.androidx.core.ktx)
