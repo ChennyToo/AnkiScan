@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("com.google.code.gson:gson:2.11.0")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation(libs.mlkit.text.recognition.japanese)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

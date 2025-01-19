@@ -21,7 +21,9 @@ abstract class DictDatabase : RoomDatabase() {
         fun getDatabase(context: Context): DictDatabase {
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, DictDatabase::class.java, "dict_database")
-                    .fallbackToDestructiveMigration().build().also { Instance = it }
+                    .fallbackToDestructiveMigration()
+                    //.addCallback() // TODO: create an input stream of entries
+                    .build().also { Instance = it }
             }
         }
     }

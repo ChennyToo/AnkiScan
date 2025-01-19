@@ -10,6 +10,7 @@ import PartOfSpeech
 import Priorities
 import ReadingInfo
 import SourceLanguageType
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -23,9 +24,9 @@ import androidx.room.TypeConverters
 @TypeConverters(Converters::class)
 data class DictEntry(
     @PrimaryKey val id: Int, // ent_seq
-    val kanjiElements: List<KanjiElement>?, // k_ele
-    val readingElements: List<ReadingElement>, // r_ele
-    val senses: List<Sense> // sense
+    @ColumnInfo(name = "k_ele") val kanjiElements: List<KanjiElement>?, // k_ele
+    @ColumnInfo(name = "r_ele") val readingElements: List<ReadingElement>, // r_ele
+    @ColumnInfo(name = "sense") val senses: List<Sense> // sense
 ) {
     public constructor() : this(0, null, listOf(), listOf())
 }
