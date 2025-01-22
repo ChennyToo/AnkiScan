@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
  *
  * @constructor Create empty Dictionary database
  */
-@Database(entities = [DictEntry::class], version = 1, exportSchema = false)
+@Database(entities = [ReadingElement::class, KanjiElement::class, Sense::class], version = 1, exportSchema = false)
 abstract class DictDatabase : RoomDatabase() {
     abstract fun dictEntryDao(): DictDao
 
