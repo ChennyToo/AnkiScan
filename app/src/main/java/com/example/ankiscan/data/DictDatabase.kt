@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 /**
  * Persist Data with Room code lab was used as a reference for this class
@@ -11,6 +12,7 @@ import androidx.room.RoomDatabase
  * @constructor Create empty Dictionary database
  */
 @Database(entities = [ReadingElement::class, KanjiElement::class, Sense::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class DictDatabase : RoomDatabase() {
     abstract fun dictEntryDao(): DictDao
 
@@ -22,7 +24,7 @@ abstract class DictDatabase : RoomDatabase() {
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, DictDatabase::class.java, "dict_database")
                     .fallbackToDestructiveMigration()
-                    //.addCallback() // TODO: create an input stream of entries
+                    .createFromAsset("dictionary.db")
                     .build().also { Instance = it }
             }
         }

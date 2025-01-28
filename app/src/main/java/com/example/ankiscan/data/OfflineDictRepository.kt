@@ -3,11 +3,22 @@ package com.example.ankiscan.data
 import kotlinx.coroutines.flow.Flow
 
 class OfflineDictRepository(private val dictDao: DictDao) : DictRepository {
-    override suspend fun insertEntry(entry: DictEntry) = dictDao.insert(entry)
+    override fun getEntryNumber(element: String, type: ElementType): Flow<Int> {
+        return when (type) {
+            ElementType.KANJI_ELEMENT -> dictDao.getKanjiElementEntryNumber(element)
+            ElementType.READING_ELEMENT -> dictDao.getReadingElementEntryNumber(element)
+        }
+    }
 
-    override suspend fun updateEntry(entry: DictEntry) = dictDao.update(entry)
+    override fun getReadingElement(entryId: Int): Flow<ReadingElement> {
+        return dictDao.getReadingElement(entryId)
+    }
 
-    override suspend fun deleteEntry(entry: DictEntry) = dictDao.delete(entry)
+    override fun getKanjiElement(entryId: Int): Flow<KanjiElement> {
+        return dictDao.getKanjiElement(entryId)
+    }
 
-    override fun getEntry(id: Int): Flow<DictEntry?> = dictDao.getEntry(id)
+    override fun getSense(entryId: Int): Flow<Sense> {
+        return dictDao.getSense(entryId)
+    }
 }

@@ -4,11 +4,15 @@ import kotlinx.coroutines.flow.Flow
 
 // Functions here map to the DictDao interface
 interface DictRepository {
-    suspend fun insertEntry(entry: DictEntry)
+    fun getEntryNumber(element: String, type: ElementType): Flow<Int>
 
-    suspend fun updateEntry(entry: DictEntry)
+    fun getReadingElement(entryId: Int): Flow<ReadingElement>
 
-    suspend fun deleteEntry(entry: DictEntry)
+    fun getKanjiElement(entryId: Int): Flow<KanjiElement>
 
-    fun getEntry(id: Int): Flow<DictEntry?>
+    fun getSense(entryId: Int): Flow<Sense>
+}
+
+enum class ElementType {
+    KANJI_ELEMENT, READING_ELEMENT
 }
