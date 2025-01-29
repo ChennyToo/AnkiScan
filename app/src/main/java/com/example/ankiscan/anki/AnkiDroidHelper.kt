@@ -93,7 +93,7 @@ class AnkiDroidHelper(
     }
 
     fun deckExists(deckName: String): Boolean {
-        val deckList: Map<Long, String> = ankiApi.deckList
+        val deckList: Map<Long, String>? = ankiApi.deckList
         if (deckList != null) {
             for (entry in deckList) {
                 if (entry.value.equals(other = deckName, ignoreCase = true)) {
