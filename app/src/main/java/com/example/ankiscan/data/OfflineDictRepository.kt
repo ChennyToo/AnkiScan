@@ -2,6 +2,7 @@ package com.example.ankiscan.data
 
 import dev.esnault.wanakana.core.Wanakana
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 
 class OfflineDictRepository(private val dictDao: DictDao) : DictRepository {
@@ -41,14 +42,16 @@ class OfflineDictRepository(private val dictDao: DictDao) : DictRepository {
         }
 
         // Get the definitions and put them in a nice format
-        val definitions: MutableList<String> = mutableListOf()
+        val glosses: MutableList<String> = mutableListOf()
         getSenseValues(entryId).forEach { sense ->
-            if (sense.definition != null) {
-                definitions.add(sense.definition)
+            if (sense.glosses != null) {
+                for (gloss in sense.glosses) {
+                    glosses.add(gloss)
+                }
             }
         }
 
-        return AnkiFields(word, definitions)
+        return AnkiFields(word, glosses)
     }
 
     private fun getEntryNumberValue(element: String, type: ElementType): Int? {
@@ -61,14 +64,8 @@ class OfflineDictRepository(private val dictDao: DictDao) : DictRepository {
         return entryNumber
     }
 
-    private fun getReadingElementsValues(entryId: Int): List<ReadingElement> {
-        var readingElements: List<ReadingElement> = listOf()
-        runBlocking {
-            getReadingElements(entryId).collect() {
-                readingElements = it
-            }
-        }
-        return readingElements
+    private suspend fun getReadingElementsValues(entryId: Int): List<ReadingElement> {
+        return getReadingElements(entryId).last()
     }
 
     private fun getKanjiElementsValues(entryId: Int): List<KanjiElement> {

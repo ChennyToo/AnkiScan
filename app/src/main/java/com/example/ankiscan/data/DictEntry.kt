@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "reading_element")
 data class ReadingElement(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "entry_id")
     val entryId: Int,
@@ -24,7 +24,7 @@ data class ReadingElement(
 
 @Entity(tableName = "kanji_element")
 data class KanjiElement(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "entry_id")
     val entryId: Int,
@@ -34,13 +34,12 @@ data class KanjiElement(
     val priority: List<String>?,
 )
 
-@Entity(tableName = "gloss")
+@Entity(tableName = "sense")
 data class Sense(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "entry_id")
     val entryId: Int,
-    val definition: String?,
     @ColumnInfo(name = "related_kanji")
     val relatedKanji: List<String>?,
     @ColumnInfo(name = "related_reading")
@@ -62,7 +61,5 @@ data class Sense(
     val glosses: List<String>?,
     @ColumnInfo(name = "sense_info")
     val senseInfo: List<String>?,
-    @ColumnInfo(name = "example")
-    val examples: List<String>?,
     // TODO: add examples from tatoeba
 )

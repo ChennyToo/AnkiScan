@@ -29,6 +29,6 @@ interface DictDao {
     @Query("SELECT * from kanji_element WHERE entry_id = :entryId")
     fun getKanjiElements(entryId: Int): Flow<List<KanjiElement>>
 
-    @Query("SELECT * from gloss WHERE entry_id = :entryId")
+    @Query("SELECT * from sense WHERE entry_id = :entryId")
     fun getSenses(entryId: Int): Flow<List<Sense>>
 }

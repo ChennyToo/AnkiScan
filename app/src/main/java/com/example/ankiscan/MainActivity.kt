@@ -27,6 +27,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -100,6 +101,7 @@ fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Fact
         color = MaterialTheme.colorScheme.background
     ) {
         var recognizedText by remember { mutableStateOf("Recognizing...") }
+        val viewModelState = viewModel.uiState.collectAsState()
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -113,6 +115,12 @@ fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Fact
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = recognizedText)
+            Button(onClick = { viewModel.searchForAnkiFields("猫") }) {
+                Text(text = "PRESS ME")
+            }
+            if (viewModelState.value.ankiFields != null) {
+                Text(text = viewModelState.value.ankiFields!!.definitions[0])
+            }
         }
 
         val bitmap = BitmapFactory.decodeResource(LocalContext.current.resources, R.drawable.japanese_example)
