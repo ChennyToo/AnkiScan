@@ -27,12 +27,14 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
-
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ankiscan.ui.screens.DictViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -59,42 +61,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AnkiScanTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    var recognizedText by remember { mutableStateOf("Recognizing...") }
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.japanese_example),
-                            contentDescription = "Sample Image",
-                            modifier = Modifier.size(128.dp)
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(text = recognizedText)
-                    }
-
-                    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.japanese_example)
-                    val image = InputImage.fromBitmap(bitmap, 0)
-                    val recognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
-
-
-                    recognizer.process(image)
-                        .addOnSuccessListener { visionText ->
-                            recognizedText = visionText.text
-                            Log.d("MainActvity", "Recognized text: ${visionText.text}")
-
-                        }
-                        .addOnFailureListener { e ->
-                            recognizedText = "Recognition failed: ${e.message}"
-                            Log.d("MainActvity", "Recognition failed: ${e.message}")
-                        }
-                }
+                MainScreen()
             }
         }
     }
@@ -126,13 +93,13 @@ class MainActivity : ComponentActivity() {
 //    NotificationManagerCompat.from(context).notify(1, builder.build())
 //}
 
-
-
-
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    AnkiScanTheme {
+fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Factory)) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        var recognizedText by remember { mutableStateOf("Recognizing...") }
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -144,6 +111,24 @@ fun GreetingPreview() {
                 contentDescription = "Sample Image",
                 modifier = Modifier.size(128.dp)
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = recognizedText)
         }
+
+        val bitmap = BitmapFactory.decodeResource(LocalContext.current.resources, R.drawable.japanese_example)
+        val image = InputImage.fromBitmap(bitmap, 0)
+        val recognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
+
+
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                recognizedText = visionText.text
+                Log.d("MainActvity", "Recognized text: ${visionText.text}")
+
+            }
+            .addOnFailureListener { e ->
+                recognizedText = "Recognition failed: ${e.message}"
+                Log.d("MainActvity", "Recognition failed: ${e.message}")
+            }
     }
 }

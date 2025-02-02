@@ -14,6 +14,7 @@ const val MIN_ID = 1_000_000
 
 /**
  * View model for validating and inserting items into the Room database
+ * I DON'T THINK WE NEED THIS FILE BUT ILL LEAVE IT HERE
  */
 class DictEntryViewModel(private val dictRepository: DictRepository) : ViewModel() {
     /**

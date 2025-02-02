@@ -53,12 +53,16 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.room.common)
     // Room
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("com.google.code.gson:gson:2.11.0")
+
+    // For japanese string helper methods
+    implementation("dev.esnault.wanakana:wanakana-android:1.1.1")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation(libs.mlkit.text.recognition.japanese)
