@@ -54,6 +54,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.room.common)
+    implementation(libs.androidx.datastore.core.android)
     // Room
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -78,7 +79,7 @@ dependencies {
     implementation(libs.play.services.mlkit.text.recognition.common)
     implementation(libs.play.services.mlkit.text.recognition.japanese)
     implementation(libs.androidx.datastore.preferences)
-    implementation(libs.anki.android)
+    implementation(libs.ankidroid.anki.android)
     implementation(libs.androidx.datastore.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

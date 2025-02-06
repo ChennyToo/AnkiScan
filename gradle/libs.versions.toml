@@ -1,5 +1,7 @@
 [versions]
 agp = "8.8.0"
+ankiAndroidVersion = "api-v1.1.0"
+datastorePreferences = "1.1.2"
 kotlin = "2.1.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -13,8 +15,11 @@ playServicesMlkitTextRecognitionCommon = "19.1.0"
 playServicesMlkitTextRecognitionJapanese = "16.0.1"
 ksp = "2.1.0-1.0.29"
 roomCommon = "2.6.1"
+datastoreCoreAndroid = "1.1.2"
 
 [libraries]
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+ankidroid-anki-android = { module = "com.github.ankidroid:Anki-Android", version.ref = "ankiAndroidVersion" }
 mlkit-text-recognition-japanese = { group = "com.google.mlkit", name = "text-recognition-japanese", version = "16.0.1" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,6 +39,7 @@ vision-common = { group = "com.google.mlkit", name = "vision-common", version.re
 play-services-mlkit-text-recognition-common = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition-common", version.ref = "playServicesMlkitTextRecognitionCommon" }
 play-services-mlkit-text-recognition-japanese = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition-japanese", version.ref = "playServicesMlkitTextRecognitionJapanese" }
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
