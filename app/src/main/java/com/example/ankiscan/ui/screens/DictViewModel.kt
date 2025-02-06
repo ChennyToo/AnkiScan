@@ -3,6 +3,7 @@ package com.example.ankiscan.ui.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ankiscan.AnkiScanApplication
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 // Heres a good reference https://github.com/google-developer-training/basic-android-kotlin-compose-training-mars-photos/blob/coil-starter/app/src/main/java/com/example/marsphotos/ui/screens/MarsViewModel.kt
 class DictViewModel(private val dictRepository: DictRepository) : ViewModel() {
@@ -28,10 +30,12 @@ class DictViewModel(private val dictRepository: DictRepository) : ViewModel() {
     }
 
     fun searchForAnkiFields(word: String) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                ankiFields = dictRepository.getAnkiFields(word)
-            )
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    ankiFields = dictRepository.getAnkiFields(word)
+                )
+            }
         }
     }
 

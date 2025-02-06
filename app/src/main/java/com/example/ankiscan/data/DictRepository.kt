@@ -4,15 +4,15 @@ import kotlinx.coroutines.flow.Flow
 
 // Functions here map to the DictDao interface
 interface DictRepository {
-    fun getEntryNumber(element: String, type: ElementType): Flow<Int>?
+    suspend fun getEntryNumber(element: String, type: ElementType): Int?
 
-    fun getReadingElements(entryId: Int): Flow<List<ReadingElement>>
+    suspend fun getReadingElements(entryId: Int): List<ReadingElement>
 
-    fun getKanjiElements(entryId: Int): Flow<List<KanjiElement>>
+    suspend fun getKanjiElements(entryId: Int): List<KanjiElement>
 
-    fun getSenses(entryId: Int): Flow<List<Sense>>
+    suspend fun getSenses(entryId: Int): List<Sense>
 
-    fun getAnkiFields(word: String): AnkiFields?
+    suspend fun getAnkiFields(word: String): AnkiFields?
 }
 
 enum class ElementType {

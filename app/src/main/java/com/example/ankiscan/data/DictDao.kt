@@ -18,17 +18,17 @@ interface DictDao {
     suspend fun insertSense(sense: Sense)
 
     @Query("SELECT entry_id from reading_element WHERE r_element = :element")
-    fun getReadingElementEntryNumber(element: String): Flow<Int>?
+    suspend fun getReadingElementEntryNumber(element: String): Int?
 
     @Query("SELECT entry_id from kanji_element WHERE k_element = :element")
-    fun getKanjiElementEntryNumber(element: String): Flow<Int>?
+    suspend fun getKanjiElementEntryNumber(element: String): Int?
 
     @Query("SELECT * from reading_element WHERE entry_id = :entryId")
-    fun getReadingElements(entryId: Int): Flow<List<ReadingElement>>
+    suspend fun getReadingElements(entryId: Int): List<ReadingElement>
 
     @Query("SELECT * from kanji_element WHERE entry_id = :entryId")
-    fun getKanjiElements(entryId: Int): Flow<List<KanjiElement>>
+    suspend fun getKanjiElements(entryId: Int): List<KanjiElement>
 
     @Query("SELECT * from sense WHERE entry_id = :entryId")
-    fun getSenses(entryId: Int): Flow<List<Sense>>
+    suspend fun getSenses(entryId: Int): List<Sense>
 }
