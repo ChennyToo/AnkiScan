@@ -1,6 +1,5 @@
 package com.example.ankiscan
 
-import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -31,24 +30,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ankiscan.anki.AnkiDroidHelper
 import com.example.ankiscan.ui.screens.DictViewModel
 import com.example.ankiscan.ui.theme.AnkiScanTheme
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.Button
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.example.ankiscan.anki.AnkiDroidHelper
 
 
 class MainActivity : ComponentActivity() {
@@ -75,7 +62,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AnkiScanTheme {
-                MainScreen()
+                MainScreen(ankiDroidHelper = ankiDroidHelper)
             }
         }
     }
@@ -107,7 +94,10 @@ class MainActivity : ComponentActivity() {
 //}
 
 @Composable
-fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Factory)) {
+fun MainScreen(
+    viewModel: DictViewModel = viewModel(factory = DictViewModel.Factory),
+    ankiDroidHelper: AnkiDroidHelper
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -161,22 +151,21 @@ fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Fact
             .addOnFailureListener { e ->
                 recognizedText = "Recognition failed: ${e.message}"
                 Log.d("MainActvity", "Recognition failed: ${e.message}")
-                    recognizer.process(image).addOnSuccessListener { visionText ->
-                        recognizedText = visionText.text
-                        Log.d("MainActvity", "Recognized text: ${visionText.text}")
-                        val words: List<String> = recognizedText.lines()
-                        val definitions: List<String> = listOf("Riddle solving", "World")
-                        val pairs = words.zip(definitions)
-                        for (pair in pairs) {
-                            ankiDroidHelper.addCardToAnkiDroid(
-                                word = pair.first,
-                                definition = pair.second
-                            )
-                        }
-                    }.addOnFailureListener { e ->
-                        recognizedText = "Recognition failed: ${e.message}"
-                        Log.d("MainActvity", "Recognition failed: ${e.message}")
+                recognizer.process(image).addOnSuccessListener { visionText ->
+                    recognizedText = visionText.text
+                    Log.d("MainActvity", "Recognized text: ${visionText.text}")
+                    val words: List<String> = recognizedText.lines()
+                    val definitions: List<String> = listOf("Riddle solving", "World")
+                    val pairs = words.zip(definitions)
+                    for (pair in pairs) {
+                        ankiDroidHelper.addCardToAnkiDroid(
+                            word = pair.first,
+                            definition = pair.second
+                        )
                     }
+                }.addOnFailureListener { e ->
+                    recognizedText = "Recognition failed: ${e.message}"
+                    Log.d("MainActvity", "Recognition failed: ${e.message}")
                 }
             }
     }
