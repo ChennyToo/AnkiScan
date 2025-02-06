@@ -1,42 +1,40 @@
 package com.example.ankiscan
 
-import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ankiscan.ui.screens.DictViewModel
 import com.example.ankiscan.ui.theme.AnkiScanTheme
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.Button
-import androidx.compose.material3.TextField
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ankiscan.ui.screens.DictViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -68,7 +66,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 
 
 //code moved to PersistentNotificationService.kt
@@ -122,15 +119,21 @@ fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Fact
                 onValueChange = { viewModel.updateSearchWord(it) },
                 label = { Text("Search Word") }
             )
+            Button(
+                onClick = { viewModel.searchForAnkiFields() },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text = "SEARCH")
+            }
             if (viewModelState.value.ankiFields != null) {
                 Text(text = viewModelState.value.ankiFields!!.definitions[0])
             }
-            Button(onClick = { viewModel.searchForAnkiFields() }) {
-                Text(text = "PRESS ME")
-            }
         }
 
-        val bitmap = BitmapFactory.decodeResource(LocalContext.current.resources, R.drawable.japanese_example)
+        val bitmap = BitmapFactory.decodeResource(
+            LocalContext.current.resources,
+            R.drawable.japanese_example
+        )
         val image = InputImage.fromBitmap(bitmap, 0)
         val recognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
 
