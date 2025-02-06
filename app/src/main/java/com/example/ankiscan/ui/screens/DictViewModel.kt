@@ -29,11 +29,11 @@ class DictViewModel(private val dictRepository: DictRepository) : ViewModel() {
         }
     }
 
-    fun searchForAnkiFields(word: String) {
+    fun searchForAnkiFields() {
         viewModelScope.launch {
             _uiState.update { currentState ->
                 currentState.copy(
-                    ankiFields = dictRepository.getAnkiFields(word)
+                    ankiFields = dictRepository.getAnkiFields(uiState.value.searchWord)
                 )
             }
         }

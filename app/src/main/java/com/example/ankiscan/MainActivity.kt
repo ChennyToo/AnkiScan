@@ -28,6 +28,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.Button
+import androidx.compose.material3.TextField
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -115,11 +116,17 @@ fun MainScreen(viewModel: DictViewModel = viewModel(factory = DictViewModel.Fact
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = recognizedText)
-            Button(onClick = { viewModel.searchForAnkiFields("猫") }) {
-                Text(text = "PRESS ME")
-            }
+
+            TextField(
+                value = viewModelState.value.searchWord,
+                onValueChange = { viewModel.updateSearchWord(it) },
+                label = { Text("Search Word") }
+            )
             if (viewModelState.value.ankiFields != null) {
                 Text(text = viewModelState.value.ankiFields!!.definitions[0])
+            }
+            Button(onClick = { viewModel.searchForAnkiFields() }) {
+                Text(text = "PRESS ME")
             }
         }
 
