@@ -103,7 +103,7 @@ fun MainScreen(
         color = MaterialTheme.colorScheme.background
     ) {
         var recognizedText by remember { mutableStateOf("Recognizing...") }
-        val viewModelState = viewModel.uiState.collectAsState()
+        val uiState by viewModel.uiState.collectAsState()
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -119,7 +119,7 @@ fun MainScreen(
             Text(text = recognizedText)
 
             TextField(
-                value = viewModelState.value.searchWord,
+                value = uiState.searchWord,
                 onValueChange = { viewModel.updateSearchWord(it) },
                 label = { Text("Search Word") }
             )
@@ -129,8 +129,8 @@ fun MainScreen(
             ) {
                 Text(text = "SEARCH")
             }
-            if (viewModelState.value.ankiFields != null) {
-                Text(text = viewModelState.value.ankiFields!!.definitions[0])
+            if (uiState.ankiFields != null) {
+                Text(text = uiState.ankiFields!!.definitions[0])
             }
         }
 
