@@ -103,6 +103,7 @@ fun MainScreen(
         color = MaterialTheme.colorScheme.background
     ) {
         var recognizedText by remember { mutableStateOf("Recognizing...") }
+        var hasSearched by remember { mutableStateOf(false) }
         val uiState by viewModel.uiState.collectAsState()
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -124,13 +125,15 @@ fun MainScreen(
                 label = { Text("Search Word") }
             )
             Button(
-                onClick = { viewModel.searchForAnkiFields() },
+                onClick = {
+                    viewModel.searchForAnkiFields()
+                    hasSearched = true },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(text = "SEARCH")
             }
-            if (uiState.ankiFields != null) {
-                Text(text = uiState.ankiFields!!.definitions[0])
+            if (hasSearched) {
+                Text(text = uiState.ankiFields?.definitions?.get(0) ?: "No definition found")
             }
         }
 
@@ -145,7 +148,7 @@ fun MainScreen(
         recognizer.process(image)
             .addOnSuccessListener { visionText ->
                 recognizedText = visionText.text
-                Log.d("MainActvity", "Recognized text: ${visionText.text}")
+                Log.d("MainActivity", "Recognized text: ${visionText.text}")
 
             }
             .addOnFailureListener { e ->
