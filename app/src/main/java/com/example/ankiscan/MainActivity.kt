@@ -127,7 +127,8 @@ fun MainScreen(
             Button(
                 onClick = {
                     viewModel.searchForAnkiFields()
-                    hasSearched = true },
+                    hasSearched = true
+                },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(text = "SEARCH")

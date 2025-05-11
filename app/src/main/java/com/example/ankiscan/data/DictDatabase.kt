@@ -11,7 +11,11 @@ import androidx.room.TypeConverters
  *
  * @constructor Create empty Dictionary database
  */
-@Database(entities = [ReadingElement::class, KanjiElement::class, Sense::class], version = 1, exportSchema = false)
+@Database(
+    entities = [ReadingElement::class, KanjiElement::class, Sense::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class DictDatabase : RoomDatabase() {
     abstract fun dictEntryDao(): DictDao

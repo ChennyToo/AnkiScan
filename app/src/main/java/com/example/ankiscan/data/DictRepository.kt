@@ -1,7 +1,5 @@
 package com.example.ankiscan.data
 
-import kotlinx.coroutines.flow.Flow
-
 // Functions here map to the DictDao interface
 interface DictRepository {
     suspend fun getEntryNumber(element: String, type: ElementType): Int?

@@ -153,11 +153,11 @@ class AnkiDroidHelper(
         }
     }
 
-    public fun getApi(): AddContentApi {
+    fun getApi(): AddContentApi {
         return ankiApi
     }
 
-    public fun addCardToAnkiDroid(word: String, definition: String) {
+    fun addCardToAnkiDroid(word: String, definition: String) {
         val data: Map<String, String> = mapOf(Pair("word", word), Pair("definition", definition))
         val deckName: String = AnkiDroidConfig.DECK_NAME
         val modelName: String = AnkiDroidConfig.MODEL_NAME

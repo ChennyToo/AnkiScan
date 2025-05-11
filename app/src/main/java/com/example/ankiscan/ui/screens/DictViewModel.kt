@@ -34,7 +34,7 @@ class DictViewModel(private val dictRepository: DictRepository) : ViewModel() {
             _uiState.update { currentState ->
                 var fields: AnkiFields? = dictRepository.getAnkiFields(uiState.value.searchWord)
                 // If there are no definition, set fields to null
-                fields = if (fields?.definitions?.size == 0) null else fields;
+                fields = if (fields?.definitions?.size == 0) null else fields
                 currentState.copy(
                     ankiFields = fields
                 )

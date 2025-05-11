@@ -1,12 +1,11 @@
 package com.example.ankiscan.data
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 class Converters {
-    // TODO: is it required to serialze nulls?
+    // TODO: is it required to serialize nulls?
     private val gson = GsonBuilder().serializeNulls().create()
 
     @TypeConverter
