@@ -164,9 +164,9 @@ class AnkiDroidHelper(
         // Get the ID and if it doesn't exist, create the deck
         val deckId: Long = if (deckExists(deckName)) getDeckId(deckName) else createDeck(deckName)
 
+        // If the word already exists, don't add it
         val modelId: Long =
             if (modelExists(modelName)) getModelId(modelName) else createModel(modelName)
-        // If the word already exists, don't add it
 
         val fieldNames: Array<String> = AnkiDroidConfig.FIELDS
         val fields: MutableList<String> = LinkedList()

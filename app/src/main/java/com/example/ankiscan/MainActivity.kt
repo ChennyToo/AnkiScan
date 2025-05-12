@@ -136,6 +136,18 @@ fun MainScreen(
             if (hasSearched) {
                 Text(text = uiState.ankiFields?.definitions?.get(0) ?: "No definition found")
             }
+            Button(
+                onClick = {
+                    if (uiState.ankiFields != null) {
+                        ankiDroidHelper.addCardToAnkiDroid(
+                            uiState.searchWord,
+                            uiState.ankiFields!!.definitions[0]
+                        )
+                    }
+                }, modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Add to Anki")
+            }
         }
 
         val bitmap = BitmapFactory.decodeResource(
